@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Fleet Overview{% endblock %}
+{% block nav_fleet %}active{% endblock %}
+{% block content %}
+
+<div class="page-head">
+  <div>
+    <h2>Fleet Overview</h2>
+    <p class="muted">All registered vehicles, live health status.</p>
+  </div>
+  <button class="btn btn-primary" id="open-add-modal">+ Add Vehicle</button>
+</div>
+
+<input type="text" id="search-box" class="search-box" placeholder="Search vehicles by name…">
+
+<div class="fleet-grid" id="fleet-grid">
+  <p class="muted">Loading fleet…</p>
+</div>
+
+<!-- Add Vehicle Modal -->
+<div class="modal-overlay" id="add-modal">
+  <div class="modal">
+    <h3>Add Vehicle</h3>
+    <label>Vehicle Name</label>
+    <input type="text" id="new-vehicle-name" placeholder="e.g. Vehicle D - Hatchback (TS09 GH 3456)">
+    <label>Starting Condition</label>
+    <select id="new-vehicle-condition">
+      <option value="random">Random (realistic mix)</option>
+      <option value="healthy">Healthy</option>
+      <option value="moderate">Moderate wear</option>
+      <option value="at_risk">At risk</option>
+    </select>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="cancel-add">Cancel</button>
+      <button class="btn btn-primary" id="confirm-add">Add Vehicle</button>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script src="/static/fleet.js"></script>
+{% endblock %}

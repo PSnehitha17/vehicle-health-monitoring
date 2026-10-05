@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Settings{% endblock %}
+{% block nav_settings %}active{% endblock %}
+{% block content %}
+
+<div class="page-head">
+  <div>
+    <h2>Alert Threshold Settings</h2>
+    <p class="muted">Tune the rule-based AI engine's normal operating ranges. Changes apply to all vehicles immediately.</p>
+  </div>
+</div>
+
+<form id="settings-form" class="settings-grid">
+  {% for key, t in thresholds.items() %}
+  <div class="card settings-card">
+    <h2>{{ key.replace('_', ' ').title() }} ({{ t.unit }})</h2>
+    <div class="settings-fields">
+      {% for field, value in t.items() %}
+        {% if field != 'unit' %}
+        <label>
+          {{ field.replace('_', ' ').title() }}
+          <input type="number" step="0.1" name="{{ key }}::{{ field }}" value="{{ value }}">
+        </label>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+  {% endfor %}
+</form>
+
+<div class="settings-actions">
+  <button class="btn btn-primary" id="save-settings">Save Settings</button>
+  <button class="btn btn-ghost" id="reset-settings">Reset to Defaults</button>
+  <span id="settings-status" class="muted"></span>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script src="/static/settings.js"></script>
+{% endblock %}

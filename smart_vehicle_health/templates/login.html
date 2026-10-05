@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login — Smart Vehicle Health</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="login-body">
+<div class="login-card">
+  <div class="login-brand">
+    <span class="brand-icon">🚗</span>
+    <h1>Smart Vehicle Health Monitoring</h1>
+    <p class="subtitle">Predictive Maintenance Dashboard</p>
+  </div>
+  {% if error %}<div class="login-error">{{ error }}</div>{% endif %}
+  <form method="POST" action="/login" class="login-form">
+    <label>Username</label>
+    <input type="text" name="username" autocomplete="username" required autofocus>
+    <label>Password</label>
+    <input type="password" name="password" autocomplete="current-password" required>
+    <button type="submit">Sign In</button>
+  </form>
+  <p class="login-hint">Demo credentials: <code>admin</code> / <code>admin123</code></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}{{ vehicle_name }}{% endblock %}
+{% block content %}
+
+<div class="page-head">
+  <div>
+    <a href="/" class="back-link">&larr; Fleet Overview</a>
+    <h2>{{ vehicle_name }}</h2>
+  </div>
+  <div class="head-actions">
+    <a class="btn btn-ghost" href="/api/vehicle/{{ vehicle_id }}/export" download>⬇ Export Report (CSV)</a>
+    <button class="btn btn-danger" id="delete-vehicle">Delete Vehicle</button>
+  </div>
+</div>
+
+<section class="score-panel">
+  <div class="score-ring-wrap">
+    <svg viewBox="0 0 120 120" class="score-ring">
+      <circle cx="60" cy="60" r="52" class="ring-bg"/>
+      <circle cx="60" cy="60" r="52" class="ring-fg" id="ring-fg"/>
+    </svg>
+    <div class="score-text">
+      <span id="score-value">--</span>
+      <small>Health Score</small>
+    </div>
+  </div>
+  <div class="score-status-wrap">
+    <div class="score-status" id="score-status">Loading sensor data…</div>
+    <div class="prediction-box" id="prediction-box">Predicted maintenance: —</div>
+  </div>
+</section>
+
+<section class="sensor-grid" id="sensor-grid"></section>
+
+<section class="lower-grid">
+  <div class="card">
+    <h2>Live Trend</h2>
+    <canvas id="trend-canvas" width="600" height="220"></canvas>
+  </div>
+  <div class="card">
+    <h2>Real-Time Alerts</h2>
+    <ul id="alerts-list" class="alerts-list">
+      <li class="alert-empty">No alerts — vehicle is healthy.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="lower-grid">
+  <div class="card">
+    <h2>Log a Service</h2>
+    <div class="service-form">
+      <select id="service-type">
+        {% for key, action in service_actions.items() %}
+        <option value="{{ key }}">{{ action.label }}</option>
+        {% endfor %}
+      </select>
+      <input type="text" id="service-notes" placeholder="Notes (optional)">
+      <button class="btn btn-primary" id="log-service-btn">Log Service</button>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Service History</h2>
+    <ul id="service-list" class="service-list">
+      <li class="alert-empty">No service records yet.</li>
+    </ul>
+  </div>
+</section>
+
+{% endblock %}
+{% block scripts %}
+<script>const VEHICLE_ID = {{ vehicle_id }};</script>
+<script src="/static/vehicle.js"></script>
+{% endblock %}

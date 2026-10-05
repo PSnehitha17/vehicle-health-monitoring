@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Smart Vehicle Health{% endblock %}</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+{% if username %}
+<header class="topbar">
+  <a class="brand" href="/">
+    <span class="brand-icon">🚗</span>
+    <div>
+      <h1>Smart Vehicle Health Monitoring</h1>
+      <p class="subtitle">Predictive Maintenance Dashboard</p>
+    </div>
+  </a>
+  <nav class="top-nav">
+    <a href="/" class="nav-link {% block nav_fleet %}{% endblock %}">Fleet Overview</a>
+    <a href="/settings" class="nav-link {% block nav_settings %}{% endblock %}">Settings</a>
+    <span class="alert-badge" id="alert-badge" title="Critical alerts"></span>
+    <span class="user-chip">👤 {{ username }}</span>
+    <a href="/logout" class="nav-link logout">Logout</a>
+  </nav>
+</header>
+{% endif %}
+
+<main class="container">
+  {% block content %}{% endblock %}
+</main>
+
+<footer>
+  Smart Vehicle Health Monitoring and Predictive Maintenance System &mdash; Demo build
+</footer>
+
+<script>
+async function refreshAlertBadge() {
+  try {
+    const res = await fetch('/api/alerts/count');
+    if (!res.ok) return;
+    const data = await res.json();
+    const el = document.getElementById('alert-badge');
+    if (!el) return;
+    if (data.critical_count > 0) {
+      el.textContent = data.critical_count;
+      el.style.display = 'inline-flex';
+    } else {
+      el.style.display = 'none';
+    }
+  } catch (e) { /* ignore */ }
+}
+if (document.getElementById('alert-badge')) {
+  refreshAlertBadge();
+  setInterval(refreshAlertBadge, 5000);
+}
+</script>
+{% block scripts %}{% endblock %}
+</body>
+</html>
